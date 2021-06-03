@@ -23,7 +23,7 @@ defmodule Cloudinex.Middleware do
     |> log_body("<- ")
   rescue
     ex in Tesla.Error ->
-      stacktrace = System.stacktrace()
+      stacktrace = __STACKTRACE__
       _ = log_exception(ex, "<- ")
       reraise ex, stacktrace
   end
