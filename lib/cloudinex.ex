@@ -963,7 +963,7 @@ defmodule Cloudinex do
   end
 
   defp client do
-    Tesla.build_client([])
+    Tesla.client([])
   end
 
   defp base_url do
