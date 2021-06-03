@@ -327,7 +327,7 @@ defmodule Cloudinex do
 
     [API Docs](http://cloudinary.com/documentation/admin_api#details_of_a_single_resource)
   """
-  @spec resource(public_id :: String.t(), options :: Keyword.t()) :: map
+  @spec resource(public_id :: String.t(), options :: Keyword.t()) :: {:ok, map} | {:error, String.t()}
   def resource(public_id, options \\ []) do
     {resource_type, options} = Keyword.pop(options, :resource_type, "image")
     {type, options} = Keyword.pop(options, :type, "upload")

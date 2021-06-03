@@ -135,6 +135,7 @@ defmodule Cloudinex.Url do
     end)
   end
 
+  defp process_option(:angle, value), do: ["a_#{value}"]
   defp process_option(:aspect_ratio, value), do: ["ar_#{value}"]
   defp process_option(:border, value), do: ["bo_#{value}"]
   defp process_option(:color, value), do: ["c_#{value}"]
