@@ -131,7 +131,7 @@ defmodule Cloudinex.Uploader do
   end
 
   defp file_upload(
-         %{"api_key" => api_key, "signature" => signature, "timestamp" => timestamp} = options,
+         %{"api_key" => _api_key, "signature" => _signature, "timestamp" => _timestamp} = options,
          file_path
        ) do
     mp =
