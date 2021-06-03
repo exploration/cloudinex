@@ -503,9 +503,9 @@ defmodule Cloudinex do
     do: delete_resources(%{tag: tag}, options)
 
   @spec delete_resources(hash :: Map.t(), options :: Keyword.t()) :: map
-  def delete_resources(hash, options \\ [])
-
   @doc """
+  # `%{public_ids: public_ids}`
+  
     Delete all resources with the given public IDs (array of up to 100 public_ids).
 
     * `:resource_type` - Optional (String, default: image). The type of file. Possible values: image, raw, video. Relevant as a parameter only when using the SDKs (the resource type is included in the endpoint URL for direct calls to the HTTP API). Note: Use the video resource type for all video resources as well as for audio files, such as .mp3.
@@ -513,14 +513,7 @@ defmodule Cloudinex do
     * `:invalidate` - Optional (Boolean, default: false). Whether to also invalidate the copies of the resource on the CDN. It usually takes a few minutes (although it might take up to an hour) for the invalidation to fully propagate through the CDN. There are also a number of other important considerations to keep in mind when invalidating files. Note that by default this parameter is not enabled: if you need this parameter enabled, please open a support request.
     * `:transformations` - Optional. Only the derived resources matching this array of transformation parameters will be deleted.
     * `:next_cursor` - Optional. When a deletion request has more than 1000 resources to delete, the response includes the partial boolean parameter set to true, as well as a next_cursor value. You can then specify this returned next_cursor value as the next_cursor parameter of the following deletion request.
-  """
-  def delete_resources(%{public_ids: public_ids}, options) when is_list(public_ids),
-    do: delete_resources(%{public_ids: Helpers.join_list(public_ids)}, options)
-
-  def delete_resources(%{public_ids: public_ids}, options) when is_binary(public_ids),
-    do: call_delete(options, public_ids: public_ids)
-
-  @doc """
+  # `${prefix: prefix}`
     Delete all resources, including derived resources, where the public ID starts with the given prefix (up to a maximum of 1000 original resources).
 
     * `:resource_type` - Optional (String, default: image). The type of file. Possible values: image, raw, video. Relevant as a parameter only when using the SDKs (the resource type is included in the endpoint URL for direct calls to the HTTP API). Note: Use the video resource type for all video resources as well as for audio files, such as .mp3.
@@ -528,11 +521,8 @@ defmodule Cloudinex do
     * `:invalidate` - Optional (Boolean, default: false). Whether to also invalidate the copies of the resource on the CDN. It usually takes a few minutes (although it might take up to an hour) for the invalidation to fully propagate through the CDN. There are also a number of other important considerations to keep in mind when invalidating files. Note that by default this parameter is not enabled: if you need this parameter enabled, please open a support request.
     * `:transformations` - Optional. Only the derived resources matching this array of transformation parameters will be deleted.
     * `:next_cursor` - Optional. When a deletion request has more than 1000 resources to delete, the response includes the partial boolean parameter set to true, as well as a next_cursor value. You can then specify this returned next_cursor value as the next_cursor parameter of the following deletion request.
-  """
-  def delete_resources(%{prefix: prefix}, options) when is_binary(prefix),
-    do: call_delete(options, prefix: prefix)
 
-  @doc """
+  # `%{all: true}`
     Delete all resources (of the relevant resource type and type), including derived resources (up to a maximum of 1000 original resources).
 
     * `:resource_type` - Optional (String, default: image). The type of file. Possible values: image, raw, video. Relevant as a parameter only when using the SDKs (the resource type is included in the endpoint URL for direct calls to the HTTP API). Note: Use the video resource type for all video resources as well as for audio files, such as .mp3.
@@ -540,11 +530,9 @@ defmodule Cloudinex do
     * `:invalidate` - Optional (Boolean, default: false). Whether to also invalidate the copies of the resource on the CDN. It usually takes a few minutes (although it might take up to an hour) for the invalidation to fully propagate through the CDN. There are also a number of other important considerations to keep in mind when invalidating files. Note that by default this parameter is not enabled: if you need this parameter enabled, please open a support request.
     * `:transformations` - Optional. Only the derived resources matching this array of transformation parameters will be deleted.
     * `:next_cursor` - Optional. When a deletion request has more than 1000 resources to delete, the response includes the partial boolean parameter set to true, as well as a next_cursor value. You can then specify this returned next_cursor value as the next_cursor parameter of the following deletion request.
-  """
-  def delete_resources(%{all: true}, options),
-    do: call_delete(options, all: true)
 
-  @doc """
+  # `%{tag: tag}`
+ 
     Delete all resources (and their derivatives) with the given tag name (up to a maximum of 1000 original resources).
 
     * `:resource_type` - Optional (String, default: image). The type of file. Possible values: image, raw, video. Relevant as a parameter only when using the SDKs (the resource type is included in the endpoint URL for direct calls to the HTTP API). Note: Use the video resource type for all video resources as well as for audio files, such as .mp3.
@@ -553,6 +541,20 @@ defmodule Cloudinex do
     * `:transformations` - Optional. Only the derived resources matching this array of transformation parameters will be deleted.
     * `:next_cursor` - Optional. When a deletion request has more than 1000 resources to delete, the response includes the partial boolean parameter set to true, as well as a next_cursor value. You can then specify this returned next_cursor value as the next_cursor parameter of the following deletion request.
   """
+  def delete_resources(hash, options \\ [])
+
+  def delete_resources(%{public_ids: public_ids}, options) when is_list(public_ids),
+    do: delete_resources(%{public_ids: Helpers.join_list(public_ids)}, options)
+
+  def delete_resources(%{public_ids: public_ids}, options) when is_binary(public_ids),
+    do: call_delete(options, public_ids: public_ids)
+
+  def delete_resources(%{prefix: prefix}, options) when is_binary(prefix),
+    do: call_delete(options, prefix: prefix)
+
+  def delete_resources(%{all: true}, options),
+    do: call_delete(options, all: true)
+
   def delete_resources(%{tag: tag}, options),
     do: call_delete(options, tag: tag)
 
@@ -961,7 +963,7 @@ defmodule Cloudinex do
   end
 
   defp client do
-    Tesla.build_client([])
+    Tesla.client([])
   end
 
   defp base_url do
