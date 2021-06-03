@@ -7,7 +7,7 @@ defmodule Cloudinex.Mixfile do
     [
       app: :cloudinex,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.11",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -48,7 +48,7 @@ defmodule Cloudinex.Mixfile do
   defp deps do
     [
       {:jason, ">= 1.0.0"},
-      {:tesla, "~> 1.0"},
+      {:tesla, "~> 1.4.1"},
       {:bypass, "~> 0.8", only: :test},
       {:credo, "~> 0.8", only: [:dev, :test]},
       {:excoveralls, "~> 0.7", only: :test},
